@@ -1,40 +1,39 @@
 name: Build Debug APK
 
-# Триггеры запуска: при пуше и pull request в ветку main
+# Триггеры: пуш и PR в main
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
+
+# Явно даём GITHUB_TOKEN необходимые права
+permissions:
+  contents: read       # читать код
+  actions: write       # использовать/загружать действия
+  packages: read       # (на всякий случай)
+  id-token: write      # если понадобятся future–OIDC-токены
 
 jobs:
   build:
-    # Используем официальный облачный раннер Ubuntu
     runs-on: ubuntu-latest
 
     steps:
-      # 1) Чекаутим код из репозитория
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # 2) Устанавливаем Java 17
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      # 3) Делаем скрипт gradlew исполняемым
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      # 4) Сборка debug-версии APK
       - name: Build Debug APK
         run: ./gradlew :app:assembleDebug --no-daemon
 
-      # 5) Загрузка APK как артефакта
       - name: Upload Debug APK
         uses: actions/upload-artifact@v3
         with:
