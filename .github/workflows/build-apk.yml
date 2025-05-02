@@ -1,18 +1,15 @@
 name: Build Debug APK
 
-# Триггеры: пуш и PR в main
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
-# Явно даём GITHUB_TOKEN необходимые права
+# Явно даём только нужные права
 permissions:
-  contents: read       # читать код
-  actions: write       # использовать/загружать действия
-  packages: read       # (на всякий случай)
-  id-token: write      # если понадобятся future–OIDC-токены
+  contents: read    # читать репозиторий
+  artifacts: write  # загружать артефакты
 
 jobs:
   build:
