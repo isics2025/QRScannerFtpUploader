@@ -1,9 +1,9 @@
 name: Build Debug APK
 
-# Даем GITHUB_TOKEN право читать содержимое и записывать артефакты
+# Даем GITHUB_TOKEN право читать код и записывать артефакты
 permissions:
   contents: read
-  artifacts: write
+  actions: write
 
 on:
   push:
